@@ -24,16 +24,13 @@
 #include "esp_log.h"
 #include "mqtt_client.h"
 #include "DHT22.h"
+#include "secrets.h"
 
 static const char *TAG = "MQTT_EXAMPLE";
 
-#define EXAMPLE_ESP_WIFI_SSID "Zubi_Technologies"
-#define EXAMPLE_ESP_WIFI_PASS "Staffs@zubi1!"
+
 #define MAX_RETRY 10
 static int retry_cnt = 0;
-
-#define MQTT_PUB_TEMP_DHT "esp32/dht/temperature"
-#define MQTT_PUB_HUM_DHT "esp32/dht/humidity"
 
 uint32_t MQTT_CONNECTED = 0;
 
@@ -81,8 +78,8 @@ void wifi_init(void)
 
     wifi_config_t wifi_config = {
         .sta = {
-            .ssid = EXAMPLE_ESP_WIFI_SSID,
-            .password = EXAMPLE_ESP_WIFI_PASS,
+            .ssid = WIFI_AP_SSID,
+            .password = WIFI_AP_PASSWORD,
             .threshold.authmode = WIFI_AUTH_WPA2_PSK,
         },
     };
@@ -145,10 +142,6 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
         break;
     }
 }
-
-#define HIVEMQ_BROKER_URI "mqtts://745fe3275c1a40fb92da3d89865af228.s1.eu.hivemq.cloud:8883"
-#define HIVEMQ_USERNAME "Mqttdht22"
-#define HIVEMQ_PASSWORD "Mqttdht22"
 
 esp_mqtt_client_handle_t client = NULL;
 
